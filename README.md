@@ -27,18 +27,33 @@ I used the Postgres Server (psql).
 	productDescription TEXT NOT NULL,
 	productCost VARCHAR(50) NOT NULL,
 	onOffer VARCHAR(50) NOT NULL
-);```
-
-I obtained the dummy data. Having the products.sql file that gives database information in creating a table add an id column in the table using this command ```id SERIAL PRIMARY KEY```
-Adding the values and checking whweter thay have been successful using the "SELECT \* FROM pRODDUCTS; brings to success.
+);
+```
+I obtained the dummy data. Having the ```products.sql``` file that gives database information in creating a table add an id column in the table using this command ___id SERIAL PRIMARY KEY___
+Adding the values and checking whether they have been successful using the ``` "SELECT * FROM products ```; brings to success.
 You will need to modify the all products section.
 
 ## SEARCHING FOR A PRODUCT
-
+This request will be processed with the `GET` method. A finction is created to introduce a async and await functions to give a limit of processing the data.
+`pool.query("SELECT * FROM products WHERE id=$1", [id])`
+This command was passed where the `id` will determine the selection of the desired data in search.
+A parameter is passed before with this command. `const id = req.params.id;`
 ## ADDING VALUE IN THE TABLE
-
-create a middleware in the index file
+I listed the table columns and passed the following function as an asynchronours function.
+`pool.query("INSERT INTO products (productThumbnail, productTitle, productDescription, productCost, onOffer) VALUES ($1, $2, $3, $4, $5) RETURNING *",[productThumbnail, productTitle, productDescription, productCost, onOffer]);`  
 
 ## UPDATING VALUES IN THE TABLE
+In this i updated my index. js gile with the following code.  
+`app.use(express.json());` This allows the interaction of the json format in the program.
+With this it allows us to pass in arguments that will give decisions on updating the database.
+eg: if(productThumbnail){updateProduct = await pool.query("UPDATE products SET productThumbnail=$1 WHERE id=$2"),[productThumbnail, id]}
+
+But before this, you will be required to pass in parameters.
+`const id = req.params.id;`
+
 
 ## DELETING A VALUE IN THE TABLE
+In deleting a value, the parameter is called through initializing it in the 'id' const `id = req.params.id;`
+This filters the data requested in the database to DELETE the users data.
+The code:
+`pool.query("DELETE FROM products WHERE id=$1", [id])`
