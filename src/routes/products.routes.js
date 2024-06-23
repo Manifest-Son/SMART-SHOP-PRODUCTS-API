@@ -1,4 +1,5 @@
 import {Router} from 'express';
+import pool from './db.config.js';
 
 const router = Router();
 
@@ -26,5 +27,6 @@ function getDeleteProducts(req, res){
     res.send("This deletes the products")
 }
 router.get("/:id", getDeleteProducts)
+
 
 export default router;
