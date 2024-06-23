@@ -63,9 +63,19 @@ function getUpdateProducts(req, res){
 }
 router.patch("/:id", getUpdateProducts)
 
-function getDeleteProducts(req, res){
-    res.send("This deletes the products")
-}
+const getDeleteProducts = async (req, res) => {
+        const id = req.params.id;
+        try{
+            const result = await pool.query("DELETE FROM products WHERE id=$1", [id]);
+            if(result.rowCount === 0){
+                res.status(404).json({success: false, message: "Invalid User"})
+            } else {
+                res.status(200).json({success: true, message: "User deleted successfully"})
+            }
+        } catch (err) {
+            res.status(500).json({success: false, message: err.message})
+        }}
+
 router.delete("/:id", getDeleteProducts)
 
 
