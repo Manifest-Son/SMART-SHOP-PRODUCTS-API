@@ -18,6 +18,6 @@ I have a PostgreSQL table with named products containing the following fields:
 Here is how I went about it:
 
 Connecting my table with the Postgress Server
-Get the dummy data. Having the products.sql file that gives database information in creating a table.
+Get the dummy data. Having the products.sql file that gives database information in creating a table add an id column in the table using this command ```id SERIAL PRIMARY KEY,```
 Adding the values and checking whweter thay have been successful using the "SELECT * FROM pRODDUCTS; brings to success.
 You will need to modify the all products section.

@@ -16,16 +16,27 @@ const router = Router();
 router.get("/", async (req, res) => {
     try{
         const result = await pool.query("SELECT * FROM products");
-        res.status(200).json(result.rows);
+        res.status(200).json({success: true, data: result.rows});
     } catch {
         res.status(500).json({success:false, message:err.message});
     }
 }
 )
 
-function getSingleProduct(req, res){
-    res.send("This will display all users.")
-}
+const getSingleProduct = async (req, res) => 
+    {
+    const id = req.params.id;
+    try{
+        const result = await pool.query("SELECT * FROM products WHERE id=$1", [id]);
+        if(result.rowCount === 0){
+            res.status(404).json({success: false, message: "User not found"})
+        } else {
+            res.status(200).json({success: true, data: result.rows})
+        }
+    } catch (err) {
+        res.status(500).json({success: false, message: err.message})
+    }}
+
 router.get("/:id", getSingleProduct)
 
 function getCreateProducts(req, res){
