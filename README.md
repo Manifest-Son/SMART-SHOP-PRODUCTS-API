@@ -21,3 +21,13 @@ Connecting my table with the Postgress Server
 Get the dummy data. Having the products.sql file that gives database information in creating a table add an id column in the table using this command ```id SERIAL PRIMARY KEY,```
 Adding the values and checking whweter thay have been successful using the "SELECT * FROM pRODDUCTS; brings to success.
 You will need to modify the all products section.
+
+## SEARCHING FOR A PRODUCT
+creatng a search query 
+
+## ADDING VALUE IN THE TABLE
+create a middleware in the index file
+
+## UPDATING VALUES IN THE TABLE
+
+## DELETING A VALUE IN THE TABLE

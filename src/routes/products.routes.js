@@ -39,20 +39,29 @@ const getSingleProduct = async (req, res) =>
 
 router.get("/:id", getSingleProduct)
 
-function getCreateProducts(req, res){
-    res.send("This will display all users.")
+const getCreateProducts = async(req, res) => {
+    try{
+            const {productThumbnail, productTitle, productDescription, productCost, onOffer} = req.body;
+            const newProduct = await pool.query("INSERT INTO products (productThumbnail, productTitle, productDescription, productCost, onOffer) VALUES ($1, $2, $3, $4, $5) RETURNING *",[productThumbnail, productTitle, productDescription, productCost, onOffer]);
+            res.send(newProduct);
+            if(newProduct.rowCount === 1 ){
+                res.status(201).json({success: true, message: "User created succesfully"})
+            } 
+    } catch(err){
+        res.status(500).json({success: false, message: err.message})
+    }
 }
-router.get("", getCreateProducts)
+router.post("/", getCreateProducts)
 
 function getUpdateProducts(req, res){
     res.send("This updates the products")
 }
-router.get("/:id", getUpdateProducts)
+router.patch("/:id", getUpdateProducts)
 
 function getDeleteProducts(req, res){
     res.send("This deletes the products")
 }
-router.get("/:id", getDeleteProducts)
+router.delete("/:id", getDeleteProducts)
 
 
 export default router;
