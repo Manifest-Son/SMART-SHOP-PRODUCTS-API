@@ -58,8 +58,23 @@ const getCreateProducts = async(req, res) => {
 }
 router.post("/", getCreateProducts)
 
-function getUpdateProducts(req, res){
-    
+const getUpdateProducts = async (req, res) => {
+    try{
+        const {productThumbnail, productTitle, productDescription, productCost, onOffer} = req.body;
+        let updateProduct;
+        if(productThumbnail){updateProduct = await pool.query("UPDATE products SET productThumbnail=$1 WHERE id=$2"),[productThumbnail, id]}
+        if(productTitle){updateProduct = await pool.query("UPDATE products SET productTitle=$1 WHERE id=$2"),[productTitle, id]}
+        if(productDescription){updateProduct = await pool.query("UPDATE products SET productDescription=$1 WHERE id=$2"),[productThumbnail, id]}
+        if(productCost){updateProduct = await pool.query("UPDATE products SET productCost=$1 WHERE id=$2"),[productCost, id]}
+        if(onOffer){updateProduct = await pool.query("UPDATE products SET onOffer=$1 WHERE id=$2"),[onOffer, id]}
+        if (updateProduct.rowCount === 1){
+            res.status(200).json({success: true, data: updateProduct.rows })
+        } else {
+            res.status(404).json("Invalid User")
+        }
+    } catch(err){
+        res.status(500).json({success: false, message: err.message})
+    }
 }
 router.patch("/:id", getUpdateProducts)
 
