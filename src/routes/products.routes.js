@@ -43,6 +43,11 @@ const getCreateProducts = async(req, res) => {
     try{
             const {productThumbnail, productTitle, productDescription, productCost, onOffer} = req.body;
             const newProduct = await pool.query("INSERT INTO products (productThumbnail, productTitle, productDescription, productCost, onOffer) VALUES ($1, $2, $3, $4, $5) RETURNING *",[productThumbnail, productTitle, productDescription, productCost, onOffer]);
+            if(!productThumbnail) return res.status(400).json({success: false, message: "Product Thumbnail is required"})
+            if(!productTitle) return res.status(400).json({success: false, message: "Product Title is required"})
+            if(!productDescription) return res.status(400).json({success: false, message: "Product Description is required"})
+            if(!productCost) return res.status(400).json({success: false, message: "Product Cost is required"})
+            if(!onOffer) return res.status(400).json({success: false, message: "Offers is required"})
             res.send(newProduct);
             if(newProduct.rowCount === 1 ){
                 res.status(201).json({success: true, message: "User created succesfully"})
@@ -54,7 +59,7 @@ const getCreateProducts = async(req, res) => {
 router.post("/", getCreateProducts)
 
 function getUpdateProducts(req, res){
-    res.send("This updates the products")
+    
 }
 router.patch("/:id", getUpdateProducts)
 
