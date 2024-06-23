@@ -3,10 +3,25 @@ import pool from './db.config.js';
 
 const router = Router();
 
-function getAllProducts(req, res){
-    res.send("This will display all users.")
+// function getAllProducts(){
+//     async (req, res) =>{
+//         try{
+//             const result = await pool.query("SELECT * FROM products");
+//             res.status(200).json(result);
+//         } catch {
+//             res.status(500).json({success:false, message:err.message})
+//         }
+//     }
+// }
+router.get("/", async (req, res) => {
+    try{
+        const result = await pool.query("SELECT * FROM products");
+        res.status(200).json(result.rows);
+    } catch {
+        res.status(500).json({success:false, message:err.message});
+    }
 }
-router.get("/", getAllProducts)
+)
 
 function getSingleProduct(req, res){
     res.send("This will display all users.")
